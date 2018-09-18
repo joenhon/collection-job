@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.collection.dao.FuUserWalletDao">
+    <select id="selectWallet" resultType="org.collection.entity.FuUserWallet" parameterType="java.util.Map">
+        /*SELECT ADDRESS FROM FU_USERWALLET WHERE TYPE = 0 order by id*/
+        SELECT * FROM(
+          SELECT A.*, ROWNUM RN FROM (
+            SELECT ADDRESS FROM FU_USERWALLET WHERE TYPE = 0 ORDER BY ID
+        <![CDATA[
+          ) A  WHERE ROWNUM<=#{end}
+        ) WHERE RN >= #{start}
+        ]]>
+    </select>
+    <select id="selectCount" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(ID) FROM FU_USERWALLET WHERE  TYPE = 0
+    </select>
+</mapper>
